@@ -3,6 +3,7 @@
 namespace SfpCodingStandardTest\Sniffs\Di;
 
 use SfpCodingStandard\Sniffs\Di\ForbiddenInstantiationSniff;
+use SfpCodingStandardTest\Sniffs\Di\Fixture\FooInterface;
 use SlevomatCodingStandard\Sniffs\TestCase;
 
 final class ForbiddenInstantiationSniffTest extends TestCase
@@ -39,11 +40,20 @@ final class ForbiddenInstantiationSniffTest extends TestCase
                 'errorCount' => 1,
                 'errorLine' => 11,
                 'sniffProperties' => [
-                    'forbiddenFunctions' => [
+                    'forbiddenInstantiations' => [
                         'SfpTest\\DummyPdoFactory' => \PDO::class
                     ]
                 ]
-            ]
+            ],
+            'forbiddenIsA' => [
+                'errorCount' => 1,
+                'errorLine' => 13,
+                'sniffProperties' => [
+                    'forbiddenInstantiations' => [
+                        'SfpTest\\FooFactory' => FooInterface::class
+                    ]
+                ]
+            ],
         ];
     }
 }

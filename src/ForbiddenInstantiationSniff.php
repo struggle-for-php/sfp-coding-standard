@@ -43,20 +43,21 @@ class ForbiddenInstantiationSniff implements Sniff
 
         $ruleRef = 'SfpCodingStandard.Di.ForbiddenInstantiation';
 
-        if (!isset($file->ruleset->ruleset[$ruleRef]['properties']['forbiddenFunctions'])) {
+        if (!isset($file->ruleset->ruleset[$ruleRef]['properties']['forbiddenInstantiations'])) {
             return ;
         }
 
-        if (!is_array($file->ruleset->ruleset[$ruleRef]['properties']['forbiddenFunctions'])) {
+        if (!is_array($file->ruleset->ruleset[$ruleRef]['properties']['forbiddenInstantiations'])) {
             return;
         }
 
-        $classes = $file->ruleset->ruleset[$ruleRef]['properties']['forbiddenFunctions'];
+        $classes = $file->ruleset->ruleset[$ruleRef]['properties']['forbiddenInstantiations'];
 
-        $factory = array_search($className, $classes, true);
-
-        if ($factory) {
-            $file->addError(sprintf('%s instantiation is forbidden. Use factory %s', $className, $factory), $classNameTokenPosition, self::VIOLATE_FORBIDDEN_INSTANTIATION_AGAINST_LIST);
+        foreach ($classes as $factory => $class) {
+            if (is_a($className, $class, true)) {
+                $file->addError(sprintf('%s instantiation is forbidden. Use factory %s', $className, $factory), $classNameTokenPosition, self::VIOLATE_FORBIDDEN_INSTANTIATION_AGAINST_LIST);
+                break;
+            }
         }
     }
 

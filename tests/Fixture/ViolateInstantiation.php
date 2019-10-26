@@ -10,6 +10,8 @@ class ViolateInstantiation
         // pdo
         new \PDO('dsn');
 
+        new Foo;
+
         new \PHPUnit\Runner\Exception;
     }
 }
