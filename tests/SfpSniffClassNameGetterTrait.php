@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace SfpTest\CodingStandard\Di;
+namespace SfpCodingStandardTest\Sniffs\Di;
 
 trait SfpSniffClassNameGetterTrait
 {
@@ -9,7 +9,7 @@ trait SfpSniffClassNameGetterTrait
      */
     protected static function getSniffClassName(): string
     {
-        $className = str_replace('SfpTest', 'Sfp', static::class);
+        $className = str_replace('SfpCodingStandardTest', 'SfpCodingStandard', static::class);
         return substr($className, 0, -strlen('Test'));
     }
 }

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Sfp\CodingStandard\Di;
+namespace SfpCodingStandard\Sniffs\Di;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
@@ -41,7 +41,7 @@ class ForbiddenInstantiationSniff implements Sniff
         }
         $className = $this->naming->getClassName($file, $classNameTokenPosition);
 
-        $ruleRef = 'Sfp.CodingStandard.Di.ForbiddenInstantiation';
+        $ruleRef = 'SfpCodingStandard.Di.ForbiddenInstantiation';
 
         if (!isset($file->ruleset->ruleset[$ruleRef]['properties']['forbiddenFunctions'])) {
             return ;

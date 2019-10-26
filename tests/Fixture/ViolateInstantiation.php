@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace SfpTest\CodingStandard\Di\Fixture;
+namespace SfpCodingStandardTest\Sniffs\Di\Fixture;
 
 class ViolateInstantiation
 {

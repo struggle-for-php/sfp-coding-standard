@@ -1,6 +1,6 @@
 {
-    "name": "struggle-for-php/sfp-coding-standard-di",
-    "description": "sfp-coding-standard-di",
+    "name": "struggle-for-php/sfp-coding-standard-sniffs-di",
+    "description": "PHP_CodeSniffer sniff for Di",
     "type": "library",
     "license": "BSD-2-Clause",
     "require": {
@@ -9,12 +9,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Sfp\\CodingStandard\\Di\\": "src/"
+            "SfpCodingStandard\\Sniffs\\Di\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "SfpTest\\CodingStandard\\Di\\": "tests/"
+            "SfpCodingStandardTest\\Sniffs\\Di\\": "tests/"
         }
     },
     "require-dev": {

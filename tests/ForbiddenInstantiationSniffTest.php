@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace SfpTest\CodingStandard\Di;
+namespace SfpCodingStandardTest\Sniffs\Di;
 
-use Sfp\CodingStandard\Di\ForbiddenInstantiationSniff;
+use SfpCodingStandard\Sniffs\Di\ForbiddenInstantiationSniff;
 use SlevomatCodingStandard\Sniffs\TestCase;
 
 final class ForbiddenInstantiationSniffTest extends TestCase
@@ -23,7 +23,6 @@ final class ForbiddenInstantiationSniffTest extends TestCase
 
         self::assertSame($expectedErrorCount, $report->getErrorCount());
         if ($errorLine !== null) {
-            var_dump($report->getErrors());
             self::assertSniffError($report, $errorLine, ForbiddenInstantiationSniff::VIOLATE_FORBIDDEN_INSTANTIATION_AGAINST_LIST);
         }
     }
