@@ -1,0 +1,63 @@
+<?php declare(strict_types=1);
+
+namespace Sfp\CodingStandard\Di;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+use SlevomatCodingStandard\Helpers\TokenHelper;
+use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
+
+class ForbiddenInstantiationSniff implements Sniff
+{
+    public const VIOLATE_FORBIDDEN_INSTANTIATION_AGAINST_LIST = 'ViolateForbiddenInstantiationAgainstList';
+
+    /**
+     * @var Naming
+     */
+    private $naming;
+
+    public function __construct()
+    {
+        $this->naming = new Naming();
+    }
+
+    /**
+     * @return int[]
+     */
+    public function register(): array
+    {
+        return [T_NEW];
+    }
+
+    /**
+     * <property name="forbiddenInstantiations" type="array">
+     *     <element key="factory" value="class" / >
+     */
+    public function process(File $file, $position): void
+    {
+        $classNameTokenPosition = TokenHelper::findNext($file, [T_STRING], $position);
+        if ($classNameTokenPosition === null) {
+            return;
+        }
+        $className = $this->naming->getClassName($file, $classNameTokenPosition);
+
+        $ruleRef = 'Sfp.CodingStandard.Di.ForbiddenInstantiation';
+
+        if (!isset($file->ruleset->ruleset[$ruleRef]['properties']['forbiddenFunctions'])) {
+            return ;
+        }
+
+        if (!is_array($file->ruleset->ruleset[$ruleRef]['properties']['forbiddenFunctions'])) {
+            return;
+        }
+
+        $classes = $file->ruleset->ruleset[$ruleRef]['properties']['forbiddenFunctions'];
+
+        $factory = array_search($className, $classes, true);
+
+        if ($factory) {
+            $file->addError(sprintf('%s instantiation is forbidden. Use factory %s', $className, $factory), $classNameTokenPosition, self::VIOLATE_FORBIDDEN_INSTANTIATION_AGAINST_LIST);
+        }
+    }
+
+}
