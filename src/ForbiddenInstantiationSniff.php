@@ -60,5 +60,4 @@ class ForbiddenInstantiationSniff implements Sniff
             }
         }
     }
-
 }
