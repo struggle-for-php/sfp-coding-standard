@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<ruleset name="SfpCodingStandard">
+    <rule ref="SfpCodingStandard.Di.ForbiddenInstantiation"/>
+</ruleset>

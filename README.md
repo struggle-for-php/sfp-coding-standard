@@ -1,9 +1,8 @@
-struggle-for-php/sfp-coding-standard-sniffs-di
+struggle-for-php/sfp-coding-standard
 ----------------------------------------------
 
 ## ForbiddenInstantiationSniff 
- 
- 
+
 ### setup in your phpcs.xml
 
 eg.
