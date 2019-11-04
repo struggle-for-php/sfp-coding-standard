@@ -7,10 +7,14 @@ struggle-for-php/sfp-coding-standard
 
 eg.
 ```
-<property name="forbiddenInstantiations" type="array">
-    <element key="factoryClass" value="class" / >
-    <element key="Vendor\\PdoFactory" value="PDO" / >
-    <element key="Vendor\\FooServiceFactory" value="FooServiceInterface" / >
+    <config name="installed_paths" value="../../slevomat/coding-standard,../../struggle-for-php/sfp-coding-standard"/>
+    <rule ref="SfpCodingStandard.Di.ForbiddenInstantiation">
+        <properties>
+            <property name="forbiddenInstantiations" type="array">
+                <element key="App\\PdoFactory" value="PDO"/>
+            </property>
+        </properties>
+    </rule>
 ```
 
 ### Todos
