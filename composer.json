@@ -1,7 +1,7 @@
 {
     "name": "struggle-for-php/sfp-coding-standard-sniffs-di",
     "description": "PHP_CodeSniffer sniff for Di",
-    "type": "library",
+    "type": "phpcodesniffer-standard",
     "license": "BSD-2-Clause",
     "require": {
         "php": ">=7.2.0",
