@@ -8,6 +8,9 @@ use SlevomatCodingStandard\Helpers\ClassHelper;
 use SlevomatCodingStandard\Helpers\TokenHelper;
 use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 
+/**
+ * @psalm-suppress UndefinedClass
+ */
 class ForbiddenInstantiationSniff implements Sniff
 {
     public const VIOLATE_FORBIDDEN_INSTANTIATION_AGAINST_LIST = 'ViolateForbiddenInstantiationAgainstList';
@@ -54,11 +57,14 @@ class ForbiddenInstantiationSniff implements Sniff
 
         $classes = $file->ruleset->ruleset[$ruleRef]['properties']['forbiddenInstantiations'];
 
+        $declaredClass = null;
         $declaredClassPosition = TokenHelper::findNext($file, [T_CLASS], 0); // expected PSR-1
-        $declaredClass = ltrim(ClassHelper::getFullyQualifiedName($file, $declaredClassPosition), '\\');
+        if ($declaredClassPosition !== null) {
+            $declaredClass = ltrim(ClassHelper::getFullyQualifiedName($file, $declaredClassPosition), '\\');
+        }
 
         foreach ($classes as $factory => $class) {
-            if ($factory === $declaredClass) {
+            if ($declaredClass != null && $declaredClass === $factory) {
                 continue;
             }
 

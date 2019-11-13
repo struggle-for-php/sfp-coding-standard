@@ -24,8 +24,8 @@
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan-deprecation-rules": "^0.11.2",
         "phpstan/phpstan-strict-rules": "^0.11.1",
-        "vimeo/psalm": "^3.5",
         "phpunit/phpunit": "^8.3",
-        "infection/infection": "^0.14.1"
+        "infection/infection": "^0.14.1",
+        "vimeo/psalm": "^3.6"
     }
 }
