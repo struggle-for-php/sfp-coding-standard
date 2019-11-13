@@ -4,6 +4,7 @@ namespace SfpCodingStandard\Sniffs\Di;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use SlevomatCodingStandard\Helpers\ClassHelper;
 use SlevomatCodingStandard\Helpers\TokenHelper;
 use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 
@@ -53,7 +54,14 @@ class ForbiddenInstantiationSniff implements Sniff
 
         $classes = $file->ruleset->ruleset[$ruleRef]['properties']['forbiddenInstantiations'];
 
+        $declaredClassPosition = TokenHelper::findNext($file, [T_CLASS], 0); // expected PSR-1
+        $declaredClass = ltrim(ClassHelper::getFullyQualifiedName($file, $declaredClassPosition), '\\');
+
         foreach ($classes as $factory => $class) {
+            if ($factory === $declaredClass) {
+                continue;
+            }
+
             if (is_a($className, $class, true)) {
                 $file->addError(sprintf('%s instantiation is forbidden. Use factory %s', $className, $factory), $classNameTokenPosition, self::VIOLATE_FORBIDDEN_INSTANTIATION_AGAINST_LIST);
                 break;

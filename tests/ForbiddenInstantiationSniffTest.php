@@ -4,6 +4,7 @@ namespace SfpCodingStandardTest\Sniffs\Di;
 
 use SfpCodingStandard\Sniffs\Di\ForbiddenInstantiationSniff;
 use SfpCodingStandardTest\Sniffs\Di\Fixture\FooInterface;
+use SfpCodingStandardTest\Sniffs\Di\Fixture\PdoFactory;
 use SlevomatCodingStandard\Sniffs\TestCase;
 
 final class ForbiddenInstantiationSniffTest extends TestCase
@@ -12,31 +13,50 @@ final class ForbiddenInstantiationSniffTest extends TestCase
 
     /**
      * @test
+     */
+    public function nonForbiddenShouldNotRaiseError() :void
+    {
+        $filePath = __DIR__ . '/Fixture/ViolateInstantiation.php';
+        $report = static::checkFile($filePath, [], $codesToCheck = []);
+        self::assertSame(0, $report->getErrorCount());
+    }
+
+    /**
+     * @test
      *
      * @dataProvider provideForbiddenInstantiations
      */
-    public function check(int $expectedErrorCount, ?int $errorLine, array $sniffProperties) :void
+    public function forbiddenShouldRaiseError(int $expectedErrorCount, ?int $errorLine, array $sniffProperties) :void
     {
         $filePath = __DIR__ . '/Fixture/ViolateInstantiation.php';
 
-        /** @var \PHP_CodeSniffer\Files\File $file */
         $report = static::checkFile($filePath, $sniffProperties, $codesToCheck = []);
 
         self::assertSame($expectedErrorCount, $report->getErrorCount());
-        if ($errorLine !== null) {
-            self::assertSniffError($report, $errorLine, ForbiddenInstantiationSniff::VIOLATE_FORBIDDEN_INSTANTIATION_AGAINST_LIST);
-        }
+        self::assertSniffError($report, $errorLine, ForbiddenInstantiationSniff::VIOLATE_FORBIDDEN_INSTANTIATION_AGAINST_LIST);
+    }
+
+    /**
+     * @test
+     */
+    public function dontRaiseErrorIsInFactory() :void
+    {
+        $filePath = __DIR__ . '/Fixture/PdoFactory.php';
+
+        $sniffProperties = [
+            'forbiddenInstantiations' => [
+                PdoFactory::class => \PDO::class
+            ],
+        ];
+
+        $report = static::checkFile($filePath, $sniffProperties, $codesToCheck = []);
+        self::assertSame(0, $report->getErrorCount());
     }
 
     public function provideForbiddenInstantiations() : array
     {
         return [
-            'nothing' => [
-                'errorCount' => 0,
-                'errorLine' => null,
-                'sniffProperties' => []
-            ],
-            'forbiddenPdo' => [
+            'forbiddenClass' => [
                 'errorCount' => 1,
                 'errorLine' => 11,
                 'sniffProperties' => [
